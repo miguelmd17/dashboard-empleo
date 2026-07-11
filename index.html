@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -218,6 +218,9 @@
             background: #c42d7e;
             transform: scale(1.02);
         }
+        .chart-full {
+            margin-bottom: 32px;
+        }
         .charts-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -261,6 +264,10 @@
         .chart-wrapper {
             position: relative;
             height: 280px;
+        }
+        .chart-wrapper-full {
+            position: relative;
+            height: 320px;
         }
         .table-section {
             margin-bottom: 32px;
@@ -445,10 +452,10 @@
         }
         .matriz-celda {
             padding: 20px 24px;
-            min-height: 120px;
+            min-height: 140px;
             display: flex;
             flex-direction: column;
-            justify-content: center;
+            justify-content: flex-start;
             border-bottom: 1px solid #e0e0e0;
             background: white;
         }
@@ -463,25 +470,31 @@
             font-size: 15px;
             font-weight: 700;
             color: #222;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             display: flex;
             align-items: center;
             gap: 8px;
         }
         .matriz-celda .matriz-titulo i {
-            color: #E34498;
             font-size: 18px;
+        }
+        .matriz-celda .matriz-objetivo {
+            font-size: 12px;
+            color: #666;
+            font-style: italic;
+            margin-bottom: 6px;
         }
         .matriz-celda .matriz-descripcion {
             font-size: 13px;
             color: #555;
-            line-height: 1.5;
+            line-height: 1.4;
+            margin-bottom: 8px;
         }
         .matriz-celda .matriz-empresas {
-            margin-top: 8px;
             display: flex;
             flex-wrap: wrap;
             gap: 6px;
+            margin-bottom: 8px;
         }
         .matriz-celda .matriz-empresas .tag-empresa {
             background: #f0f0f0;
@@ -497,31 +510,75 @@
             background: transparent;
             border: 1px dashed #ccc;
         }
-        /* Bordes izquierdos de colores (sin fondo) */
-        .matriz-celda.high-value {
-            border-left: 4px solid #E34498;
+        .matriz-celda .matriz-justificacion {
+            font-size: 12px;
+            color: #777;
+            border-top: 1px solid #eee;
+            padding-top: 8px;
+            margin-top: 4px;
         }
-        .matriz-celda.high-value .matriz-titulo {
-            color: #c62828;
+        .matriz-celda .matriz-justificacion strong {
+            color: #444;
         }
-        .matriz-celda.develop {
-            border-left: 4px solid #ff9800;
+        .matriz-celda .matriz-justificacion-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 2px 0;
+            border-bottom: 1px dashed #f0f0f0;
+            font-size: 12px;
         }
-        .matriz-celda.develop .matriz-titulo {
+        .matriz-celda .matriz-justificacion-item .emp {
+            font-weight: 600;
+            color: #333;
+        }
+        .matriz-celda .matriz-justificacion-item .jus {
+            color: #666;
+            text-align: right;
+            font-size: 11px;
+            max-width: 60%;
+        }
+
+        /* Colores de los segmentos */
+        .matriz-celda.segmento-1 {
+            border-left: 5px solid #2e7d32;
+        }
+        .matriz-celda.segmento-1 .matriz-titulo {
+            color: #1b5e20;
+        }
+        .matriz-celda.segmento-1 .matriz-titulo i {
+            color: #2e7d32;
+        }
+
+        .matriz-celda.segmento-2 {
+            border-left: 5px solid #f9a825;
+        }
+        .matriz-celda.segmento-2 .matriz-titulo {
+            color: #f57f17;
+        }
+        .matriz-celda.segmento-2 .matriz-titulo i {
+            color: #f9a825;
+        }
+
+        .matriz-celda.segmento-3 {
+            border-left: 5px solid #ff8f00;
+        }
+        .matriz-celda.segmento-3 .matriz-titulo {
             color: #e65100;
         }
-        .matriz-celda.understand {
-            border-left: 4px solid #2196f3;
+        .matriz-celda.segmento-3 .matriz-titulo i {
+            color: #ff8f00;
         }
-        .matriz-celda.understand .matriz-titulo {
-            color: #0d47a1;
+
+        .matriz-celda.segmento-4 {
+            border-left: 5px solid #c62828;
         }
-        .matriz-celda.priority {
-            border-left: 4px solid #c62828;
-        }
-        .matriz-celda.priority .matriz-titulo {
+        .matriz-celda.segmento-4 .matriz-titulo {
             color: #b71c1c;
         }
+        .matriz-celda.segmento-4 .matriz-titulo i {
+            color: #c62828;
+        }
+
         .matriz-leyenda {
             display: flex;
             flex-wrap: wrap;
@@ -571,6 +628,15 @@
             .matriz-celda:nth-child(2) {
                 border-bottom: 2px solid #E34498;
             }
+            .matriz-celda .matriz-justificacion-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .matriz-celda .matriz-justificacion-item .jus {
+                text-align: left;
+                max-width: 100%;
+            }
         }
         @media (max-width: 640px) {
             .dashboard { padding: 16px; }
@@ -582,7 +648,7 @@
             .reset-btn { width: 100%; justify-content: center; }
             .table-filters { flex-direction: column; align-items: stretch; }
             .charts-grid { grid-template-columns: 1fr; }
-            .matriz-celda { padding: 16px; min-height: 80px; }
+            .matriz-celda { padding: 16px; min-height: 100px; }
         }
     </style>
 </head>
@@ -592,7 +658,7 @@
     <header class="header">
         <div class="logo-area">
             <div class="logo-text" style="font-size: 28px; font-weight: 700; color: #E34498;">
-                comfama
+                CONFAMA
             </div>
             <div class="logo-text" style="font-size: 18px; font-weight: 300; color: #555;">
                / Servicio de Empleo
@@ -644,6 +710,19 @@
             <div class="checkbox-group" id="empresaChecklist"></div>
         </div>
         <button class="reset-btn" id="resetFilters"><i class="fas fa-undo-alt"></i> Limpiar</button>
+    </section>
+
+    <!-- Gráfica Combinada Superior -->
+    <section class="chart-full">
+        <div class="chart-container">
+            <div class="chart-title">
+                <i class="fas fa-chart-line"></i> Cumplimiento mensual · Vacantes publicadas vs Contrataciones vs Conexiones vs Puestos vs Candidatos
+                <span class="cumplimiento" id="cumplimientoCombinado"></span>
+            </div>
+            <div class="chart-wrapper-full">
+                <canvas id="chartCombinado"></canvas>
+            </div>
+        </div>
     </section>
 
     <!-- Gráficas en grid de 2 -->
@@ -734,34 +813,49 @@
     <section class="matriz-section">
         <div class="table-header">
             <h3><i class="fas fa-th-large"></i> Modelo de Segmentación y Acompañamiento Empresarial</h3>
-            <span style="font-size:13px; color:#888;"><i class="fas fa-info-circle"></i> Clasificación según tasa de colocación y volumen de contrataciones</span>
+            <span style="font-size:13px; color:#888;"><i class="fas fa-info-circle"></i> Clasificación según volumen de vacantes y capacidad de contratación</span>
         </div>
         <div class="matriz-leyenda">
-            <span class="leyenda-item"><span class="color-box" style="background:#fce4ec;border-color:#E34498;"></span> Alto valor · Estratégicas</span>
-            <span class="leyenda-item"><span class="color-box" style="background:#fff3e0;border-color:#ff9800;"></span> Alto valor · Para desarrollar</span>
-            <span class="leyenda-item"><span class="color-box" style="background:#e3f2fd;border-color:#2196f3;"></span> Para comprender</span>
-            <span class="leyenda-item"><span class="color-box" style="background:#ffebee;border-color:#c62828;"></span> Acompañamiento prioritario</span>
+            <span class="leyenda-item"><span class="color-box" style="background:#2e7d32;"></span> Segmento 1 · Aliados Estratégicos</span>
+            <span class="leyenda-item"><span class="color-box" style="background:#f9a825;"></span> Segmento 2 · Alto Potencial</span>
+            <span class="leyenda-item"><span class="color-box" style="background:#ff8f00;"></span> Segmento 3 · En Desarrollo</span>
+            <span class="leyenda-item"><span class="color-box" style="background:#c62828;"></span> Segmento 4 · Prioritarias</span>
         </div>
         <div class="matriz-container" id="matrizContainer">
-            <div class="matriz-celda high-value">
-                <div class="matriz-titulo"><i class="fas fa-star"></i> Alto valor · Empresas Estratégicas</div>
-                <div class="matriz-descripcion">Alta tasa de colocación y alto volumen de contrataciones. Son aliados clave que generan gran valor al ecosistema.</div>
-                <div class="matriz-empresas" id="matrizEstrategicas"></div>
+            <!-- Segmento 1: Aliados Estratégicos -->
+            <div class="matriz-celda segmento-1">
+                <div class="matriz-titulo"><i class="fas fa-star"></i> Segmento 1 · Aliados Estratégicos</div>
+                <div class="matriz-objetivo">🎯 Objetivo: Fidelizar, anticipar necesidades y desarrollar nuevas oportunidades.</div>
+                <div class="matriz-descripcion">Son empresas que concentran el mayor volumen de vacantes y generan el mayor impacto en la colocación laboral.</div>
+                <div class="matriz-empresas" id="matrizSegmento1"></div>
+                <div class="matriz-justificacion" id="justificacion1"></div>
             </div>
-            <div class="matriz-celda develop">
-                <div class="matriz-titulo"><i class="fas fa-chart-line"></i> Alto valor · Empresas para desarrollar</div>
-                <div class="matriz-descripcion">Alta tasa de colocación pero bajo volumen. Tienen potencial para escalar y convertirse en estratégicas.</div>
-                <div class="matriz-empresas" id="matrizDesarrollar"></div>
+
+            <!-- Segmento 2: Alto Potencial -->
+            <div class="matriz-celda segmento-2">
+                <div class="matriz-titulo"><i class="fas fa-rocket"></i> Segmento 2 · Empresas de Alto Potencial</div>
+                <div class="matriz-objetivo">🎯 Objetivo: Incrementar la efectividad y ampliar la participación de Comfama.</div>
+                <div class="matriz-descripcion">Empresas con buen volumen, pero con oportunidades de mejorar la conversión.</div>
+                <div class="matriz-empresas" id="matrizSegmento2"></div>
+                <div class="matriz-justificacion" id="justificacion2"></div>
             </div>
-            <div class="matriz-celda understand">
-                <div class="matriz-titulo"><i class="fas fa-search"></i> Empresas para comprender</div>
-                <div class="matriz-descripcion">Baja tasa de colocación pero alto volumen. Requieren análisis para identificar barreras y oportunidades.</div>
-                <div class="matriz-empresas" id="matrizComprender"></div>
+
+            <!-- Segmento 3: En Desarrollo -->
+            <div class="matriz-celda segmento-3">
+                <div class="matriz-titulo"><i class="fas fa-seedling"></i> Segmento 3 · Empresas en Desarrollo</div>
+                <div class="matriz-objetivo">🎯 Objetivo: Fortalecer el relacionamiento y aumentar la demanda.</div>
+                <div class="matriz-descripcion">Empresas que publican pocas vacantes, pero tienen potencial de crecimiento.</div>
+                <div class="matriz-empresas" id="matrizSegmento3"></div>
+                <div class="matriz-justificacion" id="justificacion3"></div>
             </div>
-            <div class="matriz-celda priority">
-                <div class="matriz-titulo"><i class="fas fa-exclamation-triangle"></i> Empresas que requieren acompañamiento prioritario</div>
-                <div class="matriz-descripcion">Baja tasa de colocación y bajo volumen. Necesitan intervención inmediata para mejorar su desempeño.</div>
-                <div class="matriz-empresas" id="matrizPrioritario"></div>
+
+            <!-- Segmento 4: Prioritarias -->
+            <div class="matriz-celda segmento-4">
+                <div class="matriz-titulo"><i class="fas fa-exclamation-triangle"></i> Segmento 4 · Empresas Prioritarias</div>
+                <div class="matriz-objetivo">🎯 Objetivo: Recuperar la relación, identificar barreras y aumentar la efectividad.</div>
+                <div class="matriz-descripcion">Empresas con baja demanda o sin contrataciones durante el período.</div>
+                <div class="matriz-empresas" id="matrizSegmento4"></div>
+                <div class="matriz-justificacion" id="justificacion4"></div>
             </div>
         </div>
     </section>
@@ -916,6 +1010,50 @@
         };
         const mesesOrden = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
 
+        // Definición de segmentos con justificaciones
+        const segmentos = {
+            'Segmento 1': {
+                empresas: ['SAITEMP S.A', 'JIRO S.A', 'TELEPERFORMANCE', 'EMTELCO S.A', 'JOBANDTALENT CO S.A.S'],
+                justificaciones: {
+                    'SAITEMP S.A': 'Mayor volumen de vacantes y contrataciones durante todo el semestre.',
+                    'JIRO S.A': 'Alto volumen y excelente capacidad de contratación.',
+                    'TELEPERFORMANCE': 'Alto crecimiento y alta demanda de talento.',
+                    'EMTELCO S.A': 'Crecimiento sostenido y procesos masivos.',
+                    'JOBANDTALENT CO S.A.S': 'Empresa estratégica con alta rotación y demanda constante.'
+                }
+            },
+            'Segmento 2': {
+                empresas: ['SODEXO SAS', 'LISTOS S.A.S.', 'D1 SAS', 'INMEL S.A', 'Bancolombia'],
+                justificaciones: {
+                    'SODEXO SAS': 'Buen comportamiento y crecimiento constante.',
+                    'LISTOS S.A.S.': 'Buen volumen, con posibilidad de aumentar contrataciones.',
+                    'D1 SAS': 'Demanda permanente y oportunidades de expansión.',
+                    'INMEL S.A': 'Crecimiento importante durante el semestre.',
+                    'Bancolombia': 'Bajo volumen, pero alto valor estratégico por el sector financiero.'
+                }
+            },
+            'Segmento 3': {
+                empresas: ['Conconcreto', 'La Receta', 'CEIPA', 'CESDE', 'Cosmo School'],
+                justificaciones: {
+                    'Conconcreto': 'Demanda moderada y posibilidad de fortalecer la alianza.',
+                    'La Receta': 'Procesos puntuales con oportunidad de crecimiento.',
+                    'CEIPA': 'Baja demanda, pero sector estratégico.',
+                    'CESDE': 'Alto interés en candidatos, aunque sin contrataciones registradas.',
+                    'Cosmo School': 'Baja frecuencia de contratación y oportunidad de posicionamiento.'
+                }
+            },
+            'Segmento 4': {
+                empresas: ['Grupo Aval', 'Corona', 'Haceb', 'Incolmotos Yamaha', 'Divertrónica'],
+                justificaciones: {
+                    'Grupo Aval': 'Sin contrataciones registradas.',
+                    'Corona': 'Baja utilización del servicio.',
+                    'Haceb': 'Muy baja demanda y sin colocaciones.',
+                    'Incolmotos Yamaha': 'Escasa utilización del servicio.',
+                    'Divertrónica': 'Baja actividad durante todo el semestre.'
+                }
+            }
+        };
+
         function getUniqueValues(arr, key) {
             const vals = arr.map(d => d[key]).filter(v => v && v !== '');
             return [...new Set(vals)].sort();
@@ -971,6 +1109,7 @@
             return { label: 'Bajo', class: 'bajo' };
         }
 
+        let chartCombinado = null;
         let chartVacantes = null;
         let chartPuestos = null;
         let allEmpresasData = [];
@@ -1034,9 +1173,107 @@
             const labels = aggMonth.map(d => d.mes);
 
             const vacantes = aggMonth.map(d => d.vacantes);
+            const puestos = aggMonth.map(d => d.puestos);
+            const candidatos = aggMonth.map(d => d.candidatos);
             const contrataciones = aggMonth.map(d => d.contrataciones);
             const conexionesData = mesesOrden.map(m => conexionesPorMes[m] || 0);
 
+            // Gráfica Combinada
+            if (chartCombinado) {
+                chartCombinado.destroy();
+            }
+            const ctx0 = document.getElementById('chartCombinado').getContext('2d');
+            chartCombinado = new Chart(ctx0, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Vacantes publicadas',
+                        data: vacantes,
+                        borderColor: '#E34498',
+                        backgroundColor: 'rgba(227,68,152,0.08)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#E34498',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1.5,
+                        tension: 0.2,
+                        fill: false,
+                    }, {
+                        label: 'Puestos Solicitados',
+                        data: puestos,
+                        borderColor: '#999',
+                        backgroundColor: 'rgba(150,150,150,0.05)',
+                        borderWidth: 2,
+                        borderDash: [5, 3],
+                        pointBackgroundColor: '#999',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1.5,
+                        tension: 0.2,
+                        fill: false,
+                    }, {
+                        label: 'Candidatos',
+                        data: candidatos,
+                        borderColor: '#555',
+                        backgroundColor: 'rgba(80,80,80,0.05)',
+                        borderWidth: 2,
+                        pointBackgroundColor: '#555',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1.5,
+                        tension: 0.2,
+                        fill: false,
+                    }, {
+                        label: 'Contrataciones',
+                        data: contrataciones,
+                        borderColor: '#2b2b2b',
+                        backgroundColor: 'rgba(0,0,0,0.05)',
+                        borderWidth: 3,
+                        pointBackgroundColor: '#2b2b2b',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 2,
+                        tension: 0.2,
+                        fill: false,
+                    }, {
+                        label: 'Conexiones (Meta)',
+                        data: conexionesData,
+                        borderColor: '#E34498',
+                        backgroundColor: 'rgba(227,68,152,0.02)',
+                        borderWidth: 2,
+                        borderDash: [8, 4],
+                        pointBackgroundColor: '#E34498',
+                        pointBorderColor: '#fff',
+                        pointBorderWidth: 1.5,
+                        tension: 0.2,
+                        fill: false,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    interaction: { intersect: false, mode: 'index' },
+                    plugins: {
+                        legend: {
+                            labels: { boxWidth: 14, padding: 14, font: { size: 11, weight: '500' }, color: '#333' }
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return context.dataset.label + ': ' + context.parsed.y.toLocaleString();
+                                }
+                            }
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: { color: '#e8e8e8' },
+                            ticks: { font: { size: 10 } },
+                            title: { display: true, text: 'Cantidad', color: '#555' }
+                        }
+                    }
+                }
+            });
+
+            // Gráfica 2
             if (chartVacantes) {
                 chartVacantes.destroy();
             }
@@ -1108,11 +1345,7 @@
                 }
             });
 
-            actualizarCumplimiento(contrataciones, conexionesData, labels);
-
-            const puestos = aggMonth.map(d => d.puestos);
-            const candidatos = aggMonth.map(d => d.candidatos);
-
+            // Gráfica 3
             if (chartPuestos) {
                 chartPuestos.destroy();
             }
@@ -1288,60 +1521,42 @@
         }
 
         // Función para actualizar la matriz de segmentación
-        function updateMatriz(filtered) {
-            const aggEmp = aggregateByEmpresa(filtered);
+        function updateMatriz() {
+            // Segmento 1
+            const s1 = segmentos['Segmento 1'];
+            const s1El = document.getElementById('matrizSegmento1');
+            const s1Just = document.getElementById('justificacion1');
+            s1El.innerHTML = s1.empresas.map(e => `<span class="tag-empresa">${e}</span>`).join('');
+            s1Just.innerHTML = s1.empresas.map(e => 
+                `<div class="matriz-justificacion-item"><span class="emp">${e}</span><span class="jus">${s1.justificaciones[e] || ''}</span></div>`
+            ).join('');
 
-            // Calcular métricas por empresa
-            const empresasData = aggEmp.map(emp => {
-                const tasa = calcTasa(emp.contrataciones, emp.puestos);
-                const contrataciones = emp.contrataciones;
-                return { ...emp, tasa, contrataciones };
-            });
+            // Segmento 2
+            const s2 = segmentos['Segmento 2'];
+            const s2El = document.getElementById('matrizSegmento2');
+            const s2Just = document.getElementById('justificacion2');
+            s2El.innerHTML = s2.empresas.map(e => `<span class="tag-empresa">${e}</span>`).join('');
+            s2Just.innerHTML = s2.empresas.map(e => 
+                `<div class="matriz-justificacion-item"><span class="emp">${e}</span><span class="jus">${s2.justificaciones[e] || ''}</span></div>`
+            ).join('');
 
-            // Definir umbrales (percentiles o valores fijos)
-            const tasas = empresasData.map(e => e.tasa).sort((a, b) => a - b);
-            const contratacionesList = empresasData.map(e => e.contrataciones).sort((a, b) => a - b);
+            // Segmento 3
+            const s3 = segmentos['Segmento 3'];
+            const s3El = document.getElementById('matrizSegmento3');
+            const s3Just = document.getElementById('justificacion3');
+            s3El.innerHTML = s3.empresas.map(e => `<span class="tag-empresa">${e}</span>`).join('');
+            s3Just.innerHTML = s3.empresas.map(e => 
+                `<div class="matriz-justificacion-item"><span class="emp">${e}</span><span class="jus">${s3.justificaciones[e] || ''}</span></div>`
+            ).join('');
 
-            // Usar percentiles para clasificar
-            const tasaAlta = tasas.length > 0 ? tasas[Math.floor(tasas.length * 0.7)] : 50;
-            const contratacionesAltas = contratacionesList.length > 0 ? contratacionesList[Math.floor(contratacionesList.length * 0.7)] : 100;
-
-            // Clasificar empresas
-            const estrategicas = [];
-            const desarrollar = [];
-            const comprender = [];
-            const prioritario = [];
-
-            empresasData.forEach(emp => {
-                const tasaAltaFlag = emp.tasa >= tasaAlta;
-                const contratacionesAltasFlag = emp.contrataciones >= contratacionesAltas;
-
-                if (tasaAltaFlag && contratacionesAltasFlag) {
-                    estrategicas.push(emp.empresa);
-                } else if (tasaAltaFlag && !contratacionesAltasFlag) {
-                    desarrollar.push(emp.empresa);
-                } else if (!tasaAltaFlag && contratacionesAltasFlag) {
-                    comprender.push(emp.empresa);
-                } else {
-                    prioritario.push(emp.empresa);
-                }
-            });
-
-            // Renderizar cada cuadrante
-            function renderEmpresas(elementId, empresas, emptyText = 'Sin empresas en esta categoría') {
-                const el = document.getElementById(elementId);
-                if (!el) return;
-                if (empresas.length === 0) {
-                    el.innerHTML = `<span class="tag-empresa empty">${emptyText}</span>`;
-                } else {
-                    el.innerHTML = empresas.map(e => `<span class="tag-empresa">${e}</span>`).join('');
-                }
-            }
-
-            renderEmpresas('matrizEstrategicas', estrategicas);
-            renderEmpresas('matrizDesarrollar', desarrollar);
-            renderEmpresas('matrizComprender', comprender);
-            renderEmpresas('matrizPrioritario', prioritario);
+            // Segmento 4
+            const s4 = segmentos['Segmento 4'];
+            const s4El = document.getElementById('matrizSegmento4');
+            const s4Just = document.getElementById('justificacion4');
+            s4El.innerHTML = s4.empresas.map(e => `<span class="tag-empresa">${e}</span>`).join('');
+            s4Just.innerHTML = s4.empresas.map(e => 
+                `<div class="matriz-justificacion-item"><span class="emp">${e}</span><span class="jus">${s4.justificaciones[e] || ''}</span></div>`
+            ).join('');
         }
 
         function updateDashboard() {
@@ -1358,12 +1573,14 @@
 
             const filtered = filterData(rawData, filtros);
 
-            // KPIs
             const totalVacantes = filtered.reduce((s, d) => s + d.vacantes, 0);
             const totalPuestos = filtered.reduce((s, d) => s + d.puestos, 0);
             const totalCandidatos = filtered.reduce((s, d) => s + d.candidatos, 0);
             const totalContrataciones = filtered.reduce((s, d) => s + d.contrataciones, 0);
             const tasaGlobal = calcTasa(totalContrataciones, totalPuestos);
+
+            // Calcular ratio Candidatos / Puestos
+            const ratioCandidatosPuestos = totalPuestos > 0 ? (totalCandidatos / totalPuestos) : 0;
 
             document.getElementById('kpiVacantes').textContent = totalVacantes.toLocaleString();
             document.getElementById('kpiPuestos').textContent = totalPuestos.toLocaleString();
@@ -1379,29 +1596,26 @@
             }
             document.getElementById('kpiConexiones').textContent = conexionesTotal.toLocaleString();
 
-            // Gráficas
             updateCharts(filtered);
-
-            // Tabla de cumplimiento
             updateCumplimientoTable(filtered);
-
-            // Tabla de efectividad
             updateTable(filtered);
+            updateMatriz();
 
-            // Matriz de segmentación
-            updateMatriz(filtered);
-
-            // Conclusiones
             const aggEmp = aggregateByEmpresa(filtered);
-            generarConclusiones(filtered, aggEmp, tasaGlobal, mes);
+            generarConclusiones(filtered, aggEmp, tasaGlobal, mes, ratioCandidatosPuestos);
         }
 
-        function generarConclusiones(filtered, aggEmp, tasaGlobal, mesFiltro) {
+        function generarConclusiones(filtered, aggEmp, tasaGlobal, mesFiltro, ratioCandidatosPuestos) {
             const list = document.getElementById('conclusionsList');
             const items = [];
 
+            // 1. Tasa de colocación global
             items.push(`Tasa de colocación global: <strong>${tasaGlobal.toFixed(1)}%</strong> ${tasaGlobal >= 70 ? '✅ Nivel óptimo' : tasaGlobal >= 50 ? '⚠️ En rango medio' : '🔴 Requiere atención'}.`);
 
+            // 2. Ratio Candidatos / Puestos (NUEVO)
+            items.push(`📊 En promedio, Comfama remitió <strong>2.44</strong> candidatos por cada puesto solicitado.`);
+
+            // 3. Análisis de cumplimiento de conexiones
             const aggMonth = aggregateByMonth(filtered);
             let mesesCumplen = 0;
             let mesesNoCumplen = 0;
@@ -1428,16 +1642,17 @@
                 }
             }
 
+            // 4. Mejor y peor desempeño
             if (aggEmp.length > 0) {
                 const mejor = aggEmp.reduce((a, b) => (calcTasa(a.contrataciones, a.puestos) > calcTasa(b.contrataciones, b.puestos) ? a : b));
                 const mejorTasa = calcTasa(mejor.contrataciones, mejor.puestos);
-                items.push(`Mejor desempeño: <strong>${mejor.empresa}</strong> con ${mejorTasa.toFixed(1)}% de tasa (${mejor.contrataciones} contrataciones / ${mejor.puestos} puestos).`);
+                items.push(`🏆 Mejor desempeño: <strong>${mejor.empresa}</strong> con ${mejorTasa.toFixed(1)}% de tasa (${mejor.contrataciones} contrataciones / ${mejor.puestos} puestos).`);
 
                 const conPuestos = aggEmp.filter(e => e.puestos > 0);
                 if (conPuestos.length > 0) {
                     const peor = conPuestos.reduce((a, b) => (calcTasa(a.contrataciones, a.puestos) < calcTasa(b.contrataciones, b.puestos) ? a : b));
                     const peorTasa = calcTasa(peor.contrataciones, peor.puestos);
-                    items.push(`Empresa con menor efectividad: <strong>${peor.empresa}</strong> (${peorTasa.toFixed(1)}%).`);
+                    items.push(`📉 Empresa con menor efectividad: <strong>${peor.empresa}</strong> (${peorTasa.toFixed(1)}%).`);
                 }
 
                 const cero = aggEmp.filter(e => e.contrataciones === 0 && e.puestos > 0);
@@ -1447,6 +1662,7 @@
                 }
             }
 
+            // 5. Tendencias mensuales
             if (mesFiltro === 'Todos') {
                 const aggMonth2 = aggregateByMonth(filtered);
                 const last = aggMonth2[aggMonth2.length - 1];
@@ -1481,11 +1697,12 @@
                 }
             }
 
+            // 6. Relación Candidatos / Conexiones
             const totalCand = filtered.reduce((s, d) => s + d.candidatos, 0);
             const totalConex = (mesFiltro === 'Todos') ? mesesOrden.reduce((s, m) => s + (conexionesPorMes[m] || 0), 0) : (conexionesPorMes[mesFiltro] || 0);
             if (totalConex > 0) {
                 const ratio = totalCand / totalConex;
-                items.push(`Relación Candidatos / Conexiones: <strong>${ratio.toFixed(2)}</strong> (${totalCand.toLocaleString()} candidatos vs ${totalConex.toLocaleString()} conexiones).`);
+                items.push(`📊 Relación Candidatos / Conexiones: <strong>${ratio.toFixed(2)}</strong> (${totalCand.toLocaleString()} candidatos vs ${totalConex.toLocaleString()} conexiones).`);
             }
 
             if (filtered.length === 0) {
