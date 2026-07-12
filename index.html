@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        /* ... estilos iguales ... */
         * {
             margin: 0;
             padding: 0;
@@ -1010,21 +1011,23 @@
         };
         const mesesOrden = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
 
-        // Definición de segmentos con justificaciones
+        // ✅ DEFINICIÓN DE SEGMENTOS ACTUALIZADA
+        // Segmento 1: Aliados Estratégicos (JOBANDTALENT removida)
+        // Segmento 2: Alto Potencial (JOBANDTALENT agregada)
         const segmentos = {
             'Segmento 1': {
-                empresas: ['SAITEMP S.A', 'JIRO S.A', 'TELEPERFORMANCE', 'EMTELCO S.A', 'JOBANDTALENT CO S.A.S'],
+                empresas: ['SAITEMP S.A', 'JIRO S.A', 'TELEPERFORMANCE', 'EMTELCO S.A'],
                 justificaciones: {
                     'SAITEMP S.A': 'Mayor volumen de vacantes y contrataciones durante todo el semestre.',
                     'JIRO S.A': 'Alto volumen y excelente capacidad de contratación.',
                     'TELEPERFORMANCE': 'Alto crecimiento y alta demanda de talento.',
-                    'EMTELCO S.A': 'Crecimiento sostenido y procesos masivos.',
-                    'JOBANDTALENT CO S.A.S': 'Empresa estratégica con alta rotación y demanda constante.'
+                    'EMTELCO S.A': 'Crecimiento sostenido y procesos masivos.'
                 }
             },
             'Segmento 2': {
-                empresas: ['SODEXO SAS', 'LISTOS S.A.S.', 'D1 SAS', 'INMEL S.A', 'Bancolombia'],
+                empresas: ['JOBANDTALENT CO S.A.S', 'SODEXO SAS', 'LISTOS S.A.S.', 'D1 SAS', 'INMEL S.A', 'Bancolombia'],
                 justificaciones: {
+                    'JOBANDTALENT CO S.A.S': 'Empresa con alta rotación y demanda constante, con oportunidad de escalar a estratégica.',
                     'SODEXO SAS': 'Buen comportamiento y crecimiento constante.',
                     'LISTOS S.A.S.': 'Buen volumen, con posibilidad de aumentar contrataciones.',
                     'D1 SAS': 'Demanda permanente y oportunidades de expansión.',
@@ -1612,7 +1615,7 @@
             // 1. Tasa de colocación global
             items.push(`Tasa de colocación global: <strong>${tasaGlobal.toFixed(1)}%</strong> ${tasaGlobal >= 70 ? '✅ Nivel óptimo' : tasaGlobal >= 50 ? '⚠️ En rango medio' : '🔴 Requiere atención'}.`);
 
-            // 2. Ratio Candidatos / Puestos (NUEVO)
+            // 2. Ratio Candidatos / Puestos
             items.push(`📊 En promedio, Comfama remitió <strong>2.44</strong> candidatos por cada puesto solicitado.`);
 
             // 3. Análisis de cumplimiento de conexiones
