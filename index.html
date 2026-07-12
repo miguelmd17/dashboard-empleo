@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        /* ... estilos iguales ... */
         * {
             margin: 0;
             padding: 0;
@@ -324,7 +323,7 @@
             width: 100%;
             border-collapse: collapse;
             font-size: 14px;
-            min-width: 700px;
+            min-width: 750px;
         }
         thead {
             background: #f2f2f2;
@@ -802,6 +801,7 @@
                         <th>Candidatos</th>
                         <th>Contrataciones</th>
                         <th>Tasa</th>
+                        <th>Prom. envío</th>
                         <th>Desempeño</th>
                     </tr>
                 </thead>
@@ -1012,8 +1012,10 @@
         const mesesOrden = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio'];
 
         // ✅ DEFINICIÓN DE SEGMENTOS ACTUALIZADA
-        // Segmento 1: Aliados Estratégicos (JOBANDTALENT removida)
-        // Segmento 2: Alto Potencial (JOBANDTALENT agregada)
+        // Segmento 1: Aliados Estratégicos
+        // Segmento 2: Alto Potencial
+        // Segmento 3: En Desarrollo (INMEL S.A removido, Bancolombia removido)
+        // Segmento 4: Prioritarias (Bancolombia agregado)
         const segmentos = {
             'Segmento 1': {
                 empresas: ['SAITEMP S.A', 'JIRO S.A', 'TELEPERFORMANCE', 'EMTELCO S.A'],
@@ -1025,29 +1027,29 @@
                 }
             },
             'Segmento 2': {
-                empresas: ['JOBANDTALENT CO S.A.S', 'SODEXO SAS', 'LISTOS S.A.S.', 'D1 SAS', 'INMEL S.A', 'Bancolombia'],
+                empresas: ['JOBANDTALENT CO S.A.S', 'SODEXO SAS', 'LISTOS S.A.S.', 'D1 SAS'],
                 justificaciones: {
                     'JOBANDTALENT CO S.A.S': 'Empresa con alta rotación y demanda constante, con oportunidad de escalar a estratégica.',
                     'SODEXO SAS': 'Buen comportamiento y crecimiento constante.',
                     'LISTOS S.A.S.': 'Buen volumen, con posibilidad de aumentar contrataciones.',
-                    'D1 SAS': 'Demanda permanente y oportunidades de expansión.',
-                    'INMEL S.A': 'Crecimiento importante durante el semestre.',
-                    'Bancolombia': 'Bajo volumen, pero alto valor estratégico por el sector financiero.'
+                    'D1 SAS': 'Demanda permanente y oportunidades de expansión.'
                 }
             },
             'Segmento 3': {
-                empresas: ['Conconcreto', 'La Receta', 'CEIPA', 'CESDE', 'Cosmo School'],
+                empresas: ['Conconcreto', 'La Receta', 'CEIPA', 'CESDE', 'Cosmo School', 'INMEL S.A'],
                 justificaciones: {
                     'Conconcreto': 'Demanda moderada y posibilidad de fortalecer la alianza.',
                     'La Receta': 'Procesos puntuales con oportunidad de crecimiento.',
                     'CEIPA': 'Baja demanda, pero sector estratégico.',
                     'CESDE': 'Alto interés en candidatos, aunque sin contrataciones registradas.',
-                    'Cosmo School': 'Baja frecuencia de contratación y oportunidad de posicionamiento.'
+                    'Cosmo School': 'Baja frecuencia de contratación y oportunidad de posicionamiento.',
+                    'INMEL S.A': 'Crecimiento importante durante el semestre, pero con volumen moderado.'
                 }
             },
             'Segmento 4': {
-                empresas: ['Grupo Aval', 'Corona', 'Haceb', 'Incolmotos Yamaha', 'Divertrónica'],
+                empresas: ['Bancolombia', 'Grupo Aval', 'Corona', 'Haceb', 'Incolmotos Yamaha', 'Divertrónica'],
                 justificaciones: {
+                    'Bancolombia': 'Bajo volumen y alta exigencia, requiere acompañamiento para aumentar su participación.',
                     'Grupo Aval': 'Sin contrataciones registradas.',
                     'Corona': 'Baja utilización del servicio.',
                     'Haceb': 'Muy baja demanda y sin colocaciones.',
@@ -1104,6 +1106,11 @@
         function calcTasa(contrataciones, puestos) {
             if (puestos === 0) return 0;
             return (contrataciones / puestos) * 100;
+        }
+
+        function calcPromedioEnvio(candidatos, puestos) {
+            if (puestos === 0) return 0;
+            return candidatos / puestos;
         }
 
         function getDesempeno(tasa) {
@@ -1488,8 +1495,9 @@
             const aggEmp = aggregateByEmpresa(filtered);
             allEmpresasData = aggEmp.map(emp => {
                 const tasa = calcTasa(emp.contrataciones, emp.puestos);
+                const promedioEnvio = calcPromedioEnvio(emp.candidatos, emp.puestos);
                 const desem = getDesempeno(tasa);
-                return { ...emp, tasa, desem };
+                return { ...emp, tasa, promedioEnvio, desem };
             });
 
             applyTableFilters();
@@ -1517,6 +1525,7 @@
                     <td>${emp.candidatos}</td>
                     <td>${emp.contrataciones}</td>
                     <td>${emp.tasa.toFixed(1)}%</td>
+                    <td>${emp.promedioEnvio.toFixed(2)}</td>
                     <td><span class="badge ${emp.desem.class}"><span class="status-dot ${emp.desem.class}"></span>${emp.desem.label}</span></td>
                 `;
                 tbody.appendChild(tr);
@@ -1616,7 +1625,7 @@
             items.push(`Tasa de colocación global: <strong>${tasaGlobal.toFixed(1)}%</strong> ${tasaGlobal >= 70 ? '✅ Nivel óptimo' : tasaGlobal >= 50 ? '⚠️ En rango medio' : '🔴 Requiere atención'}.`);
 
             // 2. Ratio Candidatos / Puestos
-            items.push(`📊 En promedio, Comfama remitió <strong>2.44</strong> candidatos por cada puesto solicitado.`);
+            items.push(`📊 En promedio, Comfama remitió <strong>${ratioCandidatosPuestos.toFixed(2)}</strong> candidatos por cada puesto solicitado.`);
 
             // 3. Análisis de cumplimiento de conexiones
             const aggMonth = aggregateByMonth(filtered);
